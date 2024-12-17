@@ -1,0 +1,65 @@
+<EditInputScreenView>
+	MDTopAppBar:
+        type: "small"
+        size_hint_x: 1
+        pos_hint: {"center_x": .5, "top": 1}
+        MDTopAppBarLeadingButtonContainer:
+            pos_hint: {"left": 1}
+            MDActionTopAppBarButton:
+                id: "buttonEditBackToMain"
+                icon: "arrow-left"
+                on_release: self.parent.parent.parent.parent.save_model_and_go_back()
+
+        MDTopAppBarTitle:
+            text: "Edit Extra Deck Level/Rank"
+            pos_hint: {"center_x": .5}
+
+
+
+	MDBoxLayout:
+		orientation: 'vertical'
+		pos_hint: {'left': 0, 'top':0.9}
+		size_hint_x: 1
+		size_hint_y: 1
+
+		MDDivider:
+			size_hint_x: 1
+			pos_hint: {"center_y": .3}
+
+		GridLayout:
+			pos_hint: {"center_x": .5}
+			id: "xyz_grid"
+			cols: 4
+			size_hint_x: 1
+			size_hint_y: 0.2
+            spacing: "16dp"
+            padding: "16dp"
+
+            default_size_hint: 1, 1
+            
+            multiselect: True
+            touch_multiselect: True
+
+		MDLabel:
+			adaptive_size: True
+			pos_hint: {"center_x": .5}
+			size_hint_x: 1
+			size_hint_y: 0.025
+			id: "label_extra_deck_count"
+    		text: "Cards in Extra Deck: 15"
+    		font_style: "Headline"
+			role: "small"
+			spacing: "32dp"
+			color: "#FFFFF8"
+		MDGridLayout:
+			pos_hint: {"center_x": .5}
+			id: "fusion_grid"
+			cols: 4
+			size_hint_x: 1
+			size_hint_y: 0.2
+			spacing: "16dp"
+            padding: "16dp"
+            default_size_hint: 1, 1
+            
+            multiselect: True
+            touch_multiselect: True

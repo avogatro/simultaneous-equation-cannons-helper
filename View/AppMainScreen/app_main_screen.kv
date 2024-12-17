@@ -1,0 +1,48 @@
+<AppMainScreenView>
+	MDTopAppBar:
+        type: "small"
+        size_hint_x: 1
+        pos_hint: {"center_x": .5, "top": 1}
+
+        MDTopAppBarLeadingButtonContainer:
+            pos_hint: {"left": 1}
+            MDActionTopAppBarButton:
+                id: "buttonTutorial"
+                icon: "help"
+                on_release: app.root.current = "tutorial_screen"
+
+            MDActionTopAppBarButton:
+                id: "buttonEditLevel"
+                icon: "file-edit-outline"
+                on_release: self.parent.parent.parent.parent.update_and_go_edit_screen()
+            
+
+        MDTopAppBarTitle:
+            text: "SEC Helper"
+            pos_hint: {"center_x": .5}
+
+        MDTopAppBarTrailingButtonContainer:
+
+    MDLabel:
+		adaptive_size: True
+		pos_hint: {"center_x": .5,'top':0.88}
+		size_hint_x: 1
+		size_hint_y: 0.025
+		id: "label_solution"
+    	text: "Click on Cards to get Solution"
+    	font_style: "Headline"
+		role: "small"
+		spacing: "32dp"
+		color: "#FFFFF8"
+    ScrollView:
+        pos_hint: {'left': 0, 'top':0.88}
+        size_hint_x: 1
+        size_hint_y: 0.88
+        MDBoxLayout:
+            id:boxed_content
+            orientation: 'vertical'
+            #size: 1, 0.9
+            #size_hint_x: 1
+            #size_hint_y: 0.9
+            spacing: 0
+            padding: 0

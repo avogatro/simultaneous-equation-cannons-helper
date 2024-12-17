@@ -1,0 +1,43 @@
+<TutorialScreenView>
+	MDTopAppBar:
+        type: "small"
+        size_hint_x: 1
+        pos_hint: {"center_x": .5, "top": 1}
+        MDTopAppBarLeadingButtonContainer: 
+            pos_hint: {"left": 1}
+            MDActionTopAppBarButton:
+                
+                id: "buttonEditBackToMain"
+                icon: "arrow-left"
+                on_release: app.root.current = "app_main_screen"
+
+        MDTopAppBarTitle:
+            text: "Tutorial SEC"
+            pos_hint: {"center_x": .5}
+
+
+    ScrollView:
+        pos_hint: {'left': 0, 'top':0.88}
+        size_hint_x: 1
+        size_hint_y: 0.88
+        MDBoxLayout:
+            id:boxed_content
+            orientation: 'vertical'
+            #size: 1, 0.9
+            #size_hint_x: 1
+            #size_hint_y: 0.9
+            spacing: "16dp"
+            padding: "16dp"
+            
+            FitImage:
+                pos_hint: {"center_x": .5}
+                source: "assets/images/SEC.png"
+                fit_mode: "scale-down"
+                
+            MDButton:
+                
+                pos_hint: {"center_x": .5}
+                on_release: self.parent.parent.parent.open_browser()
+                MDButtonText:
+                    text: "Jesse Perez's Youtube Video about SEC"
+               
