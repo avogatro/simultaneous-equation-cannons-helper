@@ -1,43 +1,83 @@
+<UrlListItem>
+    #size_hint_x: 0.5
+    pos_hint: {"center_x": .5}
+    #size_hint_y: None
+    #style: "elevated"
+    theme_width: "Custom"
+    width: 500
 <TutorialScreenView>
-	MDTopAppBar:
-        type: "small"
-        size_hint_x: 1
-        pos_hint: {"center_x": .5, "top": 1}
-        MDTopAppBarLeadingButtonContainer: 
-            pos_hint: {"left": 1}
-            MDActionTopAppBarButton:
-                
-                id: "buttonEditBackToMain"
-                icon: "arrow-left"
-                on_release: app.root.current = "app_main_screen"
-
-        MDTopAppBarTitle:
+    MDBoxLayout:
+        id:box_screen
+        orientation: 'vertical'
+        padding: "5dp"
+        spacing: "5dp"
+        MDLabel:
+            adaptive_size: True
+            pos_hint: {"center_x": .5,}
+            id: "title_tutoria"
             text: "Tutorial SEC"
-            pos_hint: {"center_x": .5}
+            font_style: "Headline"
+            role: "medium"
+            spacing: "5dp"
+            padding: "5dp"
+        MDDivider:
+            size_hint_x: 1
+            #pos_hint: {"center_y": .3}
+            spacing: "5dp"
+            padding: "5dp"
 
+        MDScrollView:
+            #pos_hint: {'left': 0, 'top':0.8}
+            size_hint: 1, 0.8
+            do_scroll_x: False
+            #size_hint_y: 0.88
+            MDBoxLayout:
+                #adaptive_height: True #scrolling is bugged at v2.0.1, mouse over effect triggers at wrong mouse position
+                pos_hint: {"center_x": .5}
+                id:boxed_content
+                orientation: 'vertical'
+                spacing: "16dp"
+                padding: "16dp"
 
-    ScrollView:
-        pos_hint: {'left': 0, 'top':0.88}
-        size_hint_x: 1
-        size_hint_y: 0.88
-        MDBoxLayout:
-            id:boxed_content
-            orientation: 'vertical'
-            #size: 1, 0.9
-            #size_hint_x: 1
-            #size_hint_y: 0.9
-            spacing: "16dp"
-            padding: "16dp"
-            
-            FitImage:
-                pos_hint: {"center_x": .5}
-                source: "assets/images/SEC.png"
-                fit_mode: "scale-down"
+                UrlListItem:
+                    on_release: self.open_browser("https://github.com/avogatro/simultaneous-equation-cannons-helper/blob/main/README.md")
+                    MDListItemLeadingIcon:
+                        icon: "github"
+                    MDListItemHeadlineText:
+                        text: "README on Github"
+                    MDListItemSupportingText:
+                        text: "image and text to explain the usage"
+                    
+                UrlListItem:
+                    on_release: self.open_browser("https://www.youtube.com/watch?v=GODdZ4Vz-WM")
+                    MDListItemLeadingIcon:
+                        icon: "youtube"
+                    MDListItemHeadlineText:
+                        text: "Jesse Perez's Youtube Introduction of SEC"
+                    MDListItemSupportingText:
+                        text: "Card explaination, static cheat sheet and more"
+                    
+                UrlListItem:
+                    on_release: self.open_browser("https://www.youtube.com/watch?v=ToOtjNXVsYU")
+                    MDListItemLeadingIcon:
+                        icon: "youtube"
+                    MDListItemHeadlineText:
+                        text: "Youtube tutorial with YGO Master Duel"
+                    MDListItemSupportingText:
+                        text: "2 example games with Masterduel, showing how to use the App in realistic situation"
+                    
+                UrlListItem:
+                    on_release: self.open_browser("https://www.youtube.com/")
+                    MDListItemLeadingIcon:
+                        icon: "youtube"
+                    MDListItemHeadlineText:
+                        text: "Advanced Youtube Tutorial"
+                    MDListItemSupportingText:
+                        text: "for second or third SEC, with previously banished Xyz/Fusion monsters"
+
+                FitImage:
+                    pos_hint: {"center_x": .5}
+                    source: "assets/images/SEC.png"
+                    fit_mode: "scale-down"
+
                 
-            MDButton:
-                
-                pos_hint: {"center_x": .5}
-                on_release: self.parent.parent.parent.open_browser()
-                MDButtonText:
-                    text: "Jesse Perez's Youtube Video about SEC"
-               

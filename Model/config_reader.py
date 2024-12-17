@@ -17,6 +17,8 @@ class InputConfiguration:
     """
     fusion_levels = List[int]
     xyz_ranks = List[int]
+    banished_fusion_levels = List[int]
+    banished_xyz_ranks = List[int]
 
 
 def read_config(config_file_location=CONFIGURATION_NAME):
@@ -51,13 +53,3 @@ def write_config(input_configuration: InputConfiguration, config_file_location =
 
     with open(file=config_file_location, mode='w', encoding='utf-8') as configfile:    # save
         config.write(configfile)
-
-""" def __main__():
-
-    input_configuration = InputConfiguration()
-    input_configuration.xyz_rank = [2,3,4,5,6]
-    input_configuration.fusion_level =  [2,3,4,5,6]
-    write_config(input_configuration)
-    print (read_config().fusion_level,read_config().xyz_rank)
-__main__() 
-"""

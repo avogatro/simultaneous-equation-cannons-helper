@@ -2,7 +2,9 @@
 view for tutorial screen
 """
 import webbrowser
+from kivymd.uix.list import MDListItem
 from View.base_screen import BaseScreenView
+
 class TutorialScreenView(BaseScreenView):
     """
     view for tutorial screen
@@ -13,9 +15,11 @@ class TutorialScreenView(BaseScreenView):
         The view in this method tracks these changes and updates the UI
         according to these changes.
         """
-    def open_browser(self):
+        
+class UrlListItem(MDListItem):
+    """just button with style"""
+    def open_browser(self, url):
         """
         open webbrowser
         """
-        webbrowser.open("https://www.youtube.com/watch?v=GODdZ4Vz-WM")
-        
+        webbrowser.open(url)

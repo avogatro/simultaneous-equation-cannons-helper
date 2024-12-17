@@ -11,18 +11,25 @@ from Controller.app_main_screen_controller import AppMainScreenController
 from Controller.edit_input_screen_controller import EditInputScreenController
 from Controller.tutorial_screen_controller import TutorialScreenController
 
+from View.constants import NAME_APP_MAIN_SCREEN, NAME_EDIT_EXTRA_DECK_SCREEN, \
+    NAME_EDIT_BANISHED_ZONE_SCREEN, NAME_TUTORIAL_SCREEN
+
 screens = {
-    "app_main_screen": {
+    NAME_APP_MAIN_SCREEN: {
         "model": AppMainScreenModel,
         "controller": AppMainScreenController,
     },
 
-    "edit_input_screen": {
+    NAME_EDIT_EXTRA_DECK_SCREEN: {
         "model": EditInputScreenModel,
         "controller": EditInputScreenController,
     },
 
-    "tutorial_screen": {
+    NAME_EDIT_BANISHED_ZONE_SCREEN: {
+        "model": EditInputScreenModel,
+        "controller": EditInputScreenController,
+    },
+    NAME_TUTORIAL_SCREEN: {
         "model": TutorialScreenModel,
         "controller": TutorialScreenController,
     },

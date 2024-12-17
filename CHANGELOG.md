@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.2.0
+
+### Added or Changed
+- banished monster level selection
+- calculation for 2nd/3rd SEC with banished monsters
+- UI: Navigationbar/Tab
+- more tutorial
+- more vidoes linked
+- unit tests
+- applicaton icon ico
 ## v0.1.0
 
 ### Added or Changed

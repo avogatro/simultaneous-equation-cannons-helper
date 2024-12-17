@@ -1,2 +1,6 @@
 *.pyc
 *.code-workspace
+*.exe
+configurations.ini
+build/
+dist/

@@ -2,14 +2,23 @@
 view class for 
 editing extra deck monster level
 """
+from enum import Enum, unique
 from typing import List
+
 import kivy.properties as KivyProps
 from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText
-from kivymd.app import MDApp
-
-from View.base_screen import BaseScreenView
 
 from Model.simultaneous_equation_cannons_state import MonsterKind
+from View.base_screen import BaseScreenView
+
+
+@unique
+class InputMode(Enum):
+    """
+    choose input mode for edit input screen
+    """
+    EXTRA_DECK = 0  # choose xyz fusion lvl/rank from extra deck
+    BANISHED_ZONE = 1  # choose xyz fusion lvl/rank in banished zone, for more equation options at 2nd/3rd SEC
 
 
 class CardSelectionButton(MDButton):
@@ -19,15 +28,6 @@ class CardSelectionButton(MDButton):
     kind: MonsterKind
     level: int
     selected = KivyProps.BooleanProperty(False)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.pos_hint = {"center_x": .5, "center_y": .5}
-        self.style = "text"
-        # self.md_bg_color="#303A29"
-        self.radius = 5
-        self.width = 150
-        self.theme_width = "Custom"
 
     def set_style(self):
         """
@@ -41,9 +41,11 @@ class CardSelectionButton(MDButton):
             self.style = "text"
 
     def on_release(self, *args):
+        if  self.parent.parent.parent.input_mode == InputMode.EXTRA_DECK and not self.selected and \
+                not self.parent.parent.parent.check_total_extra_deck_size(self.kind, self.level):
+            prefix = "Extra Deck Size "
+            self.parent.parent.parent.ids['"label_extra_deck_count"'].text = f"{prefix} can't be > 15"
 
-        if not self.selected and not self.parent.parent.parent.check_total_extra_deck_size(self.kind, self.level):
-            self.parent.parent.parent.ids['"label_extra_deck_count"'].text = "Extra Deck Size Can't be > 15"
         else:
             self.selected = not self.selected
             self.set_style()
@@ -55,10 +57,11 @@ class EditInputScreenView(BaseScreenView):
     view class for edit input screen
     """
     total_cards = 0
+    fusion_levels: List[int] = []
+    xyz_ranks: List[int] = []
+    all_buttons: List[CardSelectionButton]
 
-    fusion_levels: List[int]
-    xyz_ranks: List[int]
-    all_buttons: List[CardSelectionButton] = list[CardSelectionButton]()
+    input_mode = InputMode.EXTRA_DECK
 
     def model_is_changed(self) -> None:
         """
@@ -98,29 +101,35 @@ class EditInputScreenView(BaseScreenView):
 
     def update_extra_deck_size(self):
         """update label indicate extra deck size"""
-        total = len(self.fusion_levels) + 2 * len(self.xyz_ranks)
-        self.ids['"label_extra_deck_count"'].text = f"Extra Deck Size {total}"
+        prefix = ""
+        if self.input_mode == InputMode.EXTRA_DECK:
+            prefix = "Extra Deck Size: "
+            total = len(self.fusion_levels) + 2 * len(self.xyz_ranks)
+            self.ids['"label_extra_deck_count"'].text = f"{prefix}{total}"
+        else:
+            prefix = "Banished Monsters"
+            self.ids['"label_extra_deck_count"'].text = f"{prefix}"
 
-    def change_all_levels(self, fusion_levels: List[int], xyz_ranks: List[int]):
+    def update_extra_deck_monsters(self, fusion_levels: List[int], xyz_ranks: List[int],
+                                   input_mode=InputMode.EXTRA_DECK):
         """
         update selection from controller
         """
         self.fusion_levels = fusion_levels
         self.xyz_ranks = xyz_ranks
-
+        self.input_mode = input_mode
         for button in self.all_buttons:
             if button.kind == MonsterKind.FUSION:
-                if button.level in self.fusion_levels:
-                    button.selected = True
-                    button.set_style()
+                button.selected = button.level in fusion_levels
+                button.set_style()
             else:
-                if button.level in self.xyz_ranks:
-                    button.selected = True
-                    button.set_style()
+                button.selected = button.level in xyz_ranks
+                button.set_style()
         self.update_extra_deck_size()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.all_buttons = list[CardSelectionButton]()
         self._generate_xyz_selections()
         self._generate_fusion_selections()
 
@@ -128,7 +137,7 @@ class EditInputScreenView(BaseScreenView):
         for i in range(12):
             button = CardSelectionButton(
                 MDButtonIcon(id=f"icon_xyz_{i+1}", icon="plus"),
-                MDButtonText(id=f"text_xyz_{i+1}", text=f"Rank {i+1}"),
+                MDButtonText(id=f"text_xyz_{i+1}", text=f"Rank {i+1}", pos_hint= {"center_x": .5, "center_y": .5}),
                 id=f"xyz_{i+1}",
             )
             button.level = i + 1
@@ -140,19 +149,10 @@ class EditInputScreenView(BaseScreenView):
         for i in range(12):
             button = CardSelectionButton(
                 MDButtonIcon(id=f"icon_fusion_{i+1}", icon="plus"),
-                MDButtonText(id=f"text_fusion_{i+1}", text=f"Level {i+1}"),
+                MDButtonText(id=f"text_fusion_{i+1}", text=f"Level {i+1}", pos_hint= {"center_x": .5, "center_y": .5}),
                 id=f"fusion_{i+1}",
             )
             button.level = i + 1
             button.kind = MonsterKind.FUSION
             self.ids["\"fusion_grid\""].add_widget(button)
             self.all_buttons.append(button)
-
-    def save_model_and_go_back(self):
-        """
-        trigger controller function to update model, model trigger controller to update view
-        """
-
-        app = MDApp.get_running_app()
-        app.main_controller.set_extra_deck_monster_level(self.fusion_levels, self.xyz_ranks)
-        app.root.current = "app_main_screen"
