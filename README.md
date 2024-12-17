@@ -17,7 +17,9 @@
     <a href="https://github.com/avogatro/simultaneous-equation-cannons-helper/README.md"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://youtube.com/">View Demo</a>
+    <a href="https://www.youtube.com/watch?v=ToOtjNXVsYU">View Demo</a>
+    .
+    <a href="https://github.com/avogatro/simultaneous-equation-cannons-helper/releases/">Release: Windows Binary</a>
     ·
     <a href="https://github.com/avogatro/simultaneous-equation-cannons-helper/issues">Report Bug</a>
     ·

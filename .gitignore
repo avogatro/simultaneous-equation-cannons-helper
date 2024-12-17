@@ -1,2 +1,5 @@
 *.pyc
 *.code-workspace
+*.exe
+build/
+dist/

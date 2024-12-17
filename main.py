@@ -12,14 +12,24 @@ You can read more about this template at the links below:
 https://github.com/HeaTTheatR/LoginAppMVC
 https://en.wikipedia.org/wiki/Model–view–controller
 """
+import os
+import sys
+
+from kivy.resources import resource_add_path, resource_find
+from kivy import Config
+from kivy.core.window import Window
 
 from kivymd.app import MDApp
 from kivymd.uix.screenmanager import MDScreenManager
-from kivy import Config
-from kivy.core.window import Window
+
 from PIL import ImageGrab
 
+# hidden import for pyinstaller
+# pylint: disable=W0611
+import kivymd.icon_definitions
+
 from View.screens import screens
+
 
 resolution = ImageGrab.grab().size
 
@@ -82,4 +92,7 @@ class SimultaneousEquationCannonsHelper(MDApp):
                 self.edit_input_screen_controller = controller
 
 
-SimultaneousEquationCannonsHelper().run()
+if __name__ == '__main__':
+    if hasattr(sys, '_MEIPASS'):
+        resource_add_path(os.path.join(sys._MEIPASS))
+    SimultaneousEquationCannonsHelper().run()

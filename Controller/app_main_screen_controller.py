@@ -1,7 +1,6 @@
 """
 controller for main screen
 """
-from configparser import Error
 from typing import List
 from View.AppMainScreen.app_main_screen_view import AppMainScreenView
 
@@ -40,12 +39,12 @@ class AppMainScreenController:
 
         try:
             self._config = read_config()
-        except Error as e:
-            print(f"config parser error:\n {e}")
-
-        if self._config is not None:
-            self._sec_state = SimultaneousEquationCannonsState(fusion_levels=sorted(self._config.fusion_levels),
+            if self._config is not None:
+                self._sec_state = SimultaneousEquationCannonsState(fusion_levels=sorted(self._config.fusion_levels),
                                                           xyz_ranks=sorted(self._config.xyz_ranks))
+        except FileNotFoundError as e:
+            print(f"config parser error:\n {e}")
+            self.save_simultaneous_equation_cannons_state()
 
     def save_simultaneous_equation_cannons_state(self):
         """
@@ -55,6 +54,7 @@ class AppMainScreenController:
         input_config.xyz_ranks = self._sec_state.xyz_ranks
         input_config.fusion_levels = self._sec_state.fusion_levels
         write_config(input_config)
+        self._config = input_config
 
     def get_simultaneous_equation_cannons_output(self):
         """
