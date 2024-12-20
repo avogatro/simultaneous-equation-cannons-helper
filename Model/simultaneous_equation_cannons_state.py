@@ -207,7 +207,7 @@ class SimultaneousEquationCannonsState():
             temp_xyz_ranks = [xyz for xyz in self.xyz_ranks if xyz not in self.banished_xyz_ranks]
             temp_fusion_levels = [fusion for fusion in self.fusion_levels if fusion not in self.banished_fusion_levels]
         #normal case: if solution without pre banished monster exist
-        if res.xyz_rank in temp_xyz_ranks and res.xyz_rank in temp_fusion_levels:
+        if res.xyz_rank in temp_xyz_ranks and res.fusion_level in temp_fusion_levels:
             return res
 
         #special case: if solution only exist with pre banished monsters

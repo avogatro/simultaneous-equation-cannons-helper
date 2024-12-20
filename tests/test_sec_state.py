@@ -94,3 +94,8 @@ class SecTestCase01(unittest.TestCase):
         self.assertEqual(solution.solution_exist, True)
         self.assertEqual(solution.fusion_level, 6)
         self.assertEqual(solution.xyz_rank, 5)
+
+        solution = sec.find_solution(6, 12)
+        self.assertEqual(solution.solution_exist, True)
+        self.assertEqual(solution.fusion_level, 2)
+        self.assertEqual(solution.xyz_rank, 5)
