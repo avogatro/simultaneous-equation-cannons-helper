@@ -1,3 +1,23 @@
+<CardNumberSelectionButton>
+    pos_hint : {"center_x": .5, "center_y": .5}
+    style : "filled"
+    radius : "5dp"
+    border_radius : "5dp"
+    size_hint : None, None
+    padding: "2dp"
+    spacing: "2dp"
+    height: "40dp"
+    width : "140dp"
+    
+
+<CustomGridLayout>
+    height: self.minimum_height
+    width: self.minimum_width
+    size_hint_y:  None
+    size_hint_x:  None
+    spacing: "2dp"
+    padding: "2dp"
+
 <AppMainScreenView>
     MDBoxLayout:
         id:box_screen
@@ -7,7 +27,6 @@
         MDLabel:
             adaptive_size: True
             pos_hint: {"center_x": .5,}
-            
             id: "label_solution"
             text: "Click on Cards to get Solution"
             font_style: "Headline"
@@ -16,20 +35,15 @@
             padding: "5dp"
         MDDivider:
 			size_hint_x: 1
-			#pos_hint: {"center_y": .3}
             spacing: "5dp"
             padding: "5dp"
-        MDScrollView:
-            pos_hint: {'left': 0}
-            #size_hint: 1,1
-            #size_hint_y: 0.9
+        CustomScrollView:
+            size: self.size
             MDBoxLayout:
-                id:boxed_content
+                id: boxed_content
                 orientation: 'vertical'
-                #adaptive_height: True
-                #size: 1, 0.9
-                #size_hint_x: 1
-                #size_hint_y: None
-                spacing: "5dp"
-                padding: "5dp"
-                #height: self.minimum_height
+                adaptive_height: True
+                adaptive_width: True
+                spacing: "1dp"
+                padding: "1dp"
+                

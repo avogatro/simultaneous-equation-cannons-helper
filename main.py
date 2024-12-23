@@ -39,15 +39,16 @@ resolution = ImageGrab.grab().size
 
 # Change the values of the application window size as you need
 Config.set("graphics", "height", "800")
-Config.set("graphics", "width", "700")
+Config.set("graphics", "width", "640")
 Config.set('kivy','window_icon','icon_p1.ico')
 
 # Place the application window on the right side of the computer screen
 
-Window.top = 5
+Window.top = 30
+Window.size = (800, 640)
 Window.left = resolution[0] - Window.width
 Window.icon = "icon_p1.ico"
-Window.size = (700, 800)
+
 KV = '''
 
 <BaseMDNavigationItem@MDNavigationItem>

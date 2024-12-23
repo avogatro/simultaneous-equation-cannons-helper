@@ -2,52 +2,67 @@
 main screen view
 """
 
-import kivy.properties as KivyProps
-from kivymd.uix.gridlayout import MDGridLayout
+from kivy.graphics import Color, PopMatrix, PushMatrix, Scale
+from kivy.uix.scrollview import ScrollView
+
 from kivymd.app import MDApp
-from kivymd.uix.button import MDButton, MDButtonText
+from kivymd.uix.gridlayout import MDGridLayout
+from kivymd.uix.card.card import MDCard
+from kivymd.uix.label import MDLabel
+from kivymd.uix.behaviors import BackgroundColorBehavior, DeclarativeBehavior
 
 from View.EditInputScreen.edit_input_screen_view import InputMode
 from View.base_screen import BaseScreenView
 
 from Model.simultaneous_equation_cannons_state import SimultaneousEquationCannonsSolution
 
-
-class CardNumberSelectionButton(MDButton):
+class CardNumberSelectionButton(MDCard):
     """
     button for displaying each value of (monster level and total cards) 
     for data from Simultaneous Equation Cannons value_table
     """
     monster_level: int = 0
     total_cards: int = 0
-    selected = KivyProps.BooleanProperty(False)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.pos_hint = {"center_x": .5, "center_y": .5}
-        self.style = "text"
-        #self.md_textfield = (2, 2, 2, 2)
-        # self.md_bg_color="#303A29"
-        self.radius = 5
-        self.width = 140
-        self.theme_width = "Custom"
-        #self.size_hint_y = None
-        self.padding= "1dp"
-        self.spacing= "1dp"
     def on_press(self, *args):
-        self.selected = not self.selected
-        if self.selected:
-            self.style = "outlined"
-
+        self.style = "outlined"
         self.parent.parent.parent.parent.parent.find_solution(self.monster_level, self.total_cards)
 
+class CustomScrollView(DeclarativeBehavior, BackgroundColorBehavior, ScrollView):
+    """
+    enable both x and y axis scrolling, by recreate MDScrollView but with no MD animation
+    compare with MDScrollView to see more
+    """
+    _internal_scale = None
+
+    def __init__(self, *args, **kwargs):
+        #self.effect_cls = StretchOverScrollStencil
+        super().__init__(*args, **kwargs)
+        with self.canvas.before:
+            Color(rgba=self.md_bg_color)
+            PushMatrix()
+            self._internal_scale = Scale()
+        with self.canvas.after:
+            PopMatrix()
+        self.effect_y.scale_axis = "y"
+        self.effect_x.scale_axis = "x"
+
+    def on_touch_down(self, touch):
+        self.effect_x.last_touch_pos = touch.pos
+        self.effect_y.last_touch_pos = touch.pos
+        super().on_touch_down(touch)
+
+class CustomGridLayout(MDGridLayout):
+    """placeholder class to seperate styling from code """
 
 class AppMainScreenView(BaseScreenView):
     """
     main screen view
     """
     to_remove = []
-
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.app = MDApp.get_running_app()
     def model_is_changed(self) -> None:
         """
         Called whenever any change has occurred in the data model.
@@ -72,8 +87,11 @@ class AppMainScreenView(BaseScreenView):
         for widget in self.to_remove:
             if isinstance(widget, CardNumberSelectionButton):
                 if widget.total_cards != total_cards or widget.monster_level != monster_level:
-                    widget.style = "text"
-
+                    widget.style = "filled"
+                    widget.selected = False
+                else:
+                    widget.style = "outlined"
+                    widget.selected = True
         self.controller.find_solution(monster_level, total_cards)
 
     def _remove_old_widgets(self):
@@ -89,24 +107,15 @@ class AppMainScreenView(BaseScreenView):
         self._remove_old_widgets()
         max_col = 0
         keys = sorted(value_table.keys())
-
         for level in keys:
             max_col = max(max_col, len(value_table[level]))
+
         for level in keys:
             # create a section
-            grid_layout = MDGridLayout(
-                # pos_hint={"center_x": .5, "top": .88},
-                cols=max_col,
-                # adaptive_size =  True,
-                # adaptive_height= True,
-                # size_hint_y=  0.05,
-                #size_hint_x=1,
-                spacing="2dp",
-                padding="2dp",
-            )
+            grid_layout = CustomGridLayout(cols=max_col)
             for total_cards in value_table[level]:
                 card_number_button = CardNumberSelectionButton(
-                    MDButtonText(text=f"Lvl {level} Total {total_cards}", pos_hint={"left": 0,"center_y": .5}),
+                    MDLabel(text=f"Lvl {level}: Total {total_cards}", halign = "center", ),
                     id=f"card_number_button_{level}_{total_cards}",
                 )
                 card_number_button.monster_level = level
@@ -124,7 +133,6 @@ class AppMainScreenView(BaseScreenView):
         update edit input screen controller
         and change screen
         """
-        app = MDApp.get_running_app()
         config = self.controller.get_simultaneous_equation_cannons_config()
-        app.edit_input_screen_controller.update_extra_deck(config.fusion_levels, config.xyz_ranks, input_mode)
-        app.root.current = "edit_input_screen"
+        self.app.edit_input_screen_controller.update_extra_deck(config.fusion_levels, config.xyz_ranks, input_mode)
+        self.app.root.current = "edit_input_screen"
