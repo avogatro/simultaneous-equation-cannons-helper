@@ -15,7 +15,7 @@ from View.EditInputScreen.edit_input_screen_view import InputMode
 from View.base_screen import BaseScreenView
 
 from Model.simultaneous_equation_cannons_state import SimultaneousEquationCannonsSolution
-
+from Model.hct_color_finder import HctColorFinder
 class CardNumberSelectionButton(MDCard):
     """
     button for displaying each value of (monster level and total cards) 
@@ -27,6 +27,7 @@ class CardNumberSelectionButton(MDCard):
     def on_press(self, *args):
         self.style = "outlined"
         self.parent.parent.parent.parent.parent.find_solution(self.monster_level, self.total_cards)
+
 
 class CustomScrollView(DeclarativeBehavior, BackgroundColorBehavior, ScrollView):
     """
@@ -60,6 +61,8 @@ class AppMainScreenView(BaseScreenView):
     main screen view
     """
     to_remove = []
+    hct_color_finder = HctColorFinder(80)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.app = MDApp.get_running_app()
@@ -99,6 +102,21 @@ class AppMainScreenView(BaseScreenView):
             self.ids.boxed_content.remove_widget(w)
         self.to_remove = []
 
+    def _find_range(self, value_table):
+        keys = sorted(value_table.keys())
+        min_total = 1000
+        max_total = 0
+        for level in keys:
+            for total_cards in value_table[level]:
+                min_total = min(total_cards,min_total)
+                max_total = max(total_cards,max_total)
+        steps = max_total - min_total + 1
+        colors = self.hct_color_finder.find_colors(steps)
+        res= {}
+        for step in range(steps):
+            res[min_total+step] = colors[step]
+        return res
+
     def update_view_after_sec_update(self, value_table):
         """
         dynamically create UI to display values from model
@@ -107,6 +125,7 @@ class AppMainScreenView(BaseScreenView):
         self._remove_old_widgets()
         max_col = 0
         keys = sorted(value_table.keys())
+        heatmap_colors = self._find_range(value_table)
         for level in keys:
             max_col = max(max_col, len(value_table[level]))
 
@@ -114,8 +133,13 @@ class AppMainScreenView(BaseScreenView):
             # create a section
             grid_layout = CustomGridLayout(cols=max_col)
             for total_cards in value_table[level]:
+                color_hex = heatmap_colors[total_cards]
                 card_number_button = CardNumberSelectionButton(
-                    MDLabel(text=f"Lvl {level}: Total {total_cards}", halign = "center", ),
+                    MDLabel(text=f"Lvl {level}: Total {total_cards}",
+                            halign = "center",
+                            theme_text_color= "Custom",
+                            text_color= color_hex
+                        ),
                     id=f"card_number_button_{level}_{total_cards}",
                 )
                 card_number_button.monster_level = level
