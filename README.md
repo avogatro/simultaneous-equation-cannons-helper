@@ -67,6 +67,7 @@ That is why I want to use this program to help me to play when I still know how 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+<img src="assets\images\current_screenshot.png" alt="screenshot00" width="800">
 
 ### Built With
 

@@ -40,6 +40,15 @@
                 padding: "16dp"
 
                 UrlListItem:
+                    on_release: self.open_browser("https://www.youtube.com/watch?v=3mr3Yr2AYHY")
+                    MDListItemLeadingIcon:
+                        icon: "youtube"
+                    MDListItemHeadlineText:
+                        text: "Youtube Tutorial"
+                    MDListItemSupportingText:
+                        text: "Show Feature, Show real example for first and second SEC"
+
+                UrlListItem:
                     on_release: self.open_browser("https://github.com/avogatro/simultaneous-equation-cannons-helper/blob/main/README.md")
                     MDListItemLeadingIcon:
                         icon: "github"
@@ -58,22 +67,15 @@
                         text: "Card explaination, static cheat sheet and more"
                     
                 UrlListItem:
-                    on_release: self.open_browser("https://www.youtube.com/watch?v=ToOtjNXVsYU")
+                    on_release: self.open_browser("https://www.youtube.com/watch?v=s7ItqV_ayIg")
                     MDListItemLeadingIcon:
                         icon: "youtube"
                     MDListItemHeadlineText:
-                        text: "Youtube tutorial with YGO Master Duel"
+                        text: "The Simultaneous Equation Cannons MasterClass | Smarter With Stevie"
                     MDListItemSupportingText:
-                        text: "2 example games with Masterduel, showing how to use the App in realistic situation"
+                        text: "TCG explaination"
                     
-                UrlListItem:
-                    on_release: self.open_browser("https://www.youtube.com/")
-                    MDListItemLeadingIcon:
-                        icon: "youtube"
-                    MDListItemHeadlineText:
-                        text: "Advanced Youtube Tutorial"
-                    MDListItemSupportingText:
-                        text: "for second or third SEC, with previously banished Xyz/Fusion monsters"
+
 
                 FitImage:
                     pos_hint: {"center_x": .5}
