@@ -56,12 +56,15 @@ class CustomScrollView(DeclarativeBehavior, BackgroundColorBehavior, ScrollView)
 class CustomGridLayout(MDGridLayout):
     """placeholder class to seperate styling from code """
 
+class CustomLabel(MDLabel):
+    """placeholder class to seperate styling from code """
+    
 class AppMainScreenView(BaseScreenView):
     """
     main screen view
     """
     to_remove = []
-    hct_color_finder = HctColorFinder(80)
+    hct_color_finder = HctColorFinder(chroma=120,tone=60)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -135,11 +138,8 @@ class AppMainScreenView(BaseScreenView):
             for total_cards in value_table[level]:
                 color_hex = heatmap_colors[total_cards]
                 card_number_button = CardNumberSelectionButton(
-                    MDLabel(text=f"Lvl {level}: Total {total_cards}",
-                            halign = "center",
-                            theme_text_color= "Custom",
-                            text_color= color_hex
-                        ),
+                    CustomLabel(text = f"Lvl {level}: Total {total_cards}",
+                                text_color = color_hex),
                     id=f"card_number_button_{level}_{total_cards}",
                 )
                 card_number_button.monster_level = level
