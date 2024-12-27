@@ -183,6 +183,9 @@ class SimultaneousEquationCannonsState():
         """debug output print value_table """
         print(f"fusion_level\t{self._fusion_levels}")
         print(f"xyz_rank\t{self._xyz_ranks}")
+        print(f"banished fusion_level\t{self._banished_fusion_levels}")
+        print(f"banished xyz_rank\t{self._banished_xyz_ranks}")
+        
         for k in sorted(self._value_table.keys()):
             print(f"Monster Lvl/Rank to Match: {k} \t Possible Total Cards: {self._value_table[k]}")
 
@@ -250,7 +253,8 @@ class SimultaneousEquationCannonsState():
         self._banished_xyz_ranks = []
         self._generate_value_table()
 
-    def set_banish_zone_monster_level(self, fusion_levels: List[int], xyz_ranks: List[int], compare_mode: CompareMode):
+    def set_banish_zone_monster_level(self, fusion_levels: List[int], xyz_ranks: List[int], \
+        compare_mode: CompareMode = CompareMode.EXCLUDE):
         """set banished xyz/fusion monster for calculation"""
         self._check_input(fusion_levels, xyz_ranks)
         self._compare_mode = compare_mode

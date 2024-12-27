@@ -1,5 +1,10 @@
 # Changelog
 
+
+## v0.3.0
+- add scrolling in x and y direction
+- add colored heatmap to see same card total easily in different rows
+
 ## v0.2.0
 
 ### Added or Changed

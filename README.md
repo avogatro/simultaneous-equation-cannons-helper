@@ -84,10 +84,14 @@ That is why I want to use this program to help me to play when I still know how 
 
 ### Installation
 #### Use Python Interpreter:
+##### Hint: if u only use console and not the UI, u don't need anything else beside python3
+##### Hint: if "pip" don't exist use "pip3"
+
 - git clone this project
 - install Python 3 
 - for windows: edit env variables to add python path to path 
 - cd <project_folder>
+- pip install https://github.com/kivymd/KivyMD/archive/master.zip 
 - pip install -r requirements.txt
 - python.exe main.py
 
@@ -122,6 +126,36 @@ That is why I want to use this program to help me to play when I still know how 
  - Click on each total number to see what level/rank u have to banish
 
 <img src="assets\images\SEC_tut_02.png" alt="tut_02" width="800">
+
+#### Use only Python in console, no UI
+ - open console, go to project folder
+ - start python3 interactive console
+
+ ```python
+from Model.simultaneous_equation_cannons_state import * # import module
+
+sec = SimultaneousEquationCannonsState([2, 3, 4, 5, 6], [2, 3, 4, 5, 6]) # setup extra deck
+sec.set_banish_zone_monster_level(fusion_levels=[], xyz_ranks=[4]) # setup previously banish xyz or fusion monsters
+sec.print_value_table() # ouput
+sec.reset_banish_zone_monster_level() # reset banish zone
+```
+
+##### Output
+```
+fusion_level    [2, 3, 4, 5, 6]
+xyz_rank        [2, 3, 4, 5, 6]
+banished fusion_level   []
+banished xyz_rank       [4]
+Monster Lvl/Rank to Match: 4     Possible Total Cards: [6]
+Monster Lvl/Rank to Match: 5     Possible Total Cards: [7, 8]
+Monster Lvl/Rank to Match: 6     Possible Total Cards: [6, 8, 9, 12, 14]
+Monster Lvl/Rank to Match: 7     Possible Total Cards: [7, 9, 10, 12, 13, 15]
+Monster Lvl/Rank to Match: 8     Possible Total Cards: [8, 10, 11, 13, 14, 16]
+Monster Lvl/Rank to Match: 9     Possible Total Cards: [9, 11, 12, 14, 15, 17]
+Monster Lvl/Rank to Match: 10    Possible Total Cards: [10, 12, 15, 16, 18]
+Monster Lvl/Rank to Match: 11    Possible Total Cards: [16, 17]
+Monster Lvl/Rank to Match: 12    Possible Total Cards: [18]
+```
 
 <!-- CONTRIBUTING -->
 ## Contributing
